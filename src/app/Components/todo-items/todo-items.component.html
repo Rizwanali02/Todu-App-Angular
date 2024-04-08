@@ -1,0 +1,29 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex justify-content-between">
+      <h3 class="card-title">{{ todo.title | titlecase }}</h3>
+      <p class="text-success" *ngIf="selectedTab === 'done'">Completed</p>
+      <p class="text-success" *ngIf="selectedTab === 'doing'">Processing</p>
+    </div>
+    <p class="card-text">{{ todo.desc | titlecase }}</p>
+    <div class="d-flex gap-3">
+      <button
+        class="btn btn-outline-dark btn-sm"
+        (click)="doingTodos(todo)"
+        *ngIf="selectedTab === 'do'"
+      >
+        Doing
+      </button>
+      <button
+        class="btn btn-outline-success btn-sm"
+        (click)="doneTodos(todo)"
+        *ngIf="selectedTab !== 'do' && selectedTab !== 'done'"
+      >
+        Done
+      </button>
+      <button class="btn btn-danger btn-sm" (click)="onclick(todo)">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

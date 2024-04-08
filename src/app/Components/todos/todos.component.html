@@ -1,0 +1,83 @@
+<div class="d-flex container gap-4 justify-content-center mt-3">
+  <p
+    class="btn"
+    [ngClass]="{
+      'btn-outline-warning': selectedTab !== 'do',
+      'btn-warning': selectedTab === 'do'
+    }"
+    (click)="selectedTab = 'do'"
+  >
+    Do
+  </p>
+  <p
+    class="btn"
+    [ngClass]="{
+      'btn-outline-dark': selectedTab !== 'doing',
+      'btn-dark': selectedTab === 'doing',
+      'text-white': selectedTab === 'doing'
+    }"
+    (click)="selectedTab = 'doing'"
+  >
+    Doing
+  </p>
+  <p
+    class="btn"
+    [ngClass]="{
+      'btn-outline-success': selectedTab !== 'done',
+      'btn-success': selectedTab === 'done'
+    }"
+    (click)="selectedTab = 'done'"
+  >
+    Done
+  </p>
+</div>
+<div *ngIf="selectedTab === 'do'" class="mb-4">
+  <app-add-todo (todoAdd)="addTodo($event)"></app-add-todo>
+</div>
+<div *ngIf="selectedTab === 'do'">
+  <h4>Your All Todo's</h4>
+</div>
+
+<div *ngIf="selectedTab === 'doing'">
+  <h4>Your Doing Todo's</h4>
+</div>
+
+<div *ngIf="selectedTab === 'done'">
+  <h4>Your Completed Todo's</h4>
+</div>
+
+<div *ngIf="selectedTab === 'do'; else elseBlock">
+  <div *ngIf="todos.length === 0">No Todo to Display</div>
+  <div *ngFor="let todo of todos">
+    <app-todo-items
+      [todo]="todo"
+      (todoDelete)="deleteTodo($event)"
+      (doingTodoClicked)="doingTodoClicked($event)"
+      (doneTodoClicked)="doneTodoClicked($event)"
+      [selectedTab]="selectedTab"
+    ></app-todo-items>
+  </div>
+</div>
+<ng-template #elseBlock>
+  <div *ngIf="selectedTab === 'doing'">
+    <div *ngIf="doingTodos.length === 0">No Todo to Display</div>
+    <div *ngFor="let todo of doingTodos">
+      <app-todo-items
+        [todo]="todo"
+        (todoDelete)="deleteTodo($event)"
+        (doneTodoClicked)="doneTodoClicked($event)"
+        [selectedTab]="selectedTab"
+      ></app-todo-items>
+    </div>
+  </div>
+  <div *ngIf="selectedTab === 'done'">
+    <div *ngIf="doneTodos.length === 0">No Todo to Display</div>
+    <div *ngFor="let todo of doneTodos">
+      <app-todo-items
+        [todo]="todo"
+        (todoDelete)="deleteTodo($event)"
+        [selectedTab]="selectedTab"
+      ></app-todo-items>
+    </div>
+  </div>
+</ng-template>
